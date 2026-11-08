@@ -6,7 +6,7 @@ import { ResumeItem } from './resume-item.js';
 export const app = express();
 app.use(express.json({ limit: '16kb' }));
 
-app.get('/api/resume-items', async (req, res, next) => {
+app.get('/activities', async (req, res, next) => {
   try {
     await connectDatabase();
     const items = await ResumeItem.find().lean();
@@ -16,10 +16,10 @@ app.get('/api/resume-items', async (req, res, next) => {
   }
 });
 
-app.post('/api/resume-items', async (req, res, next) => {
+app.post('/activities', async (req, res, next) => {
   try {
-    const { job_title, start_year, end_year, employer, accomplishment } = req.body || {};
-    const item = new ResumeItem({ job_title, start_year, end_year, employer, accomplishment });
+    const { activityName, desc, activityType, energy } = req.body || {};
+    const item = new ResumeItem({ activityName, desc, activityType, energy });
     await item.validate();
     await connectDatabase();
     await item.save();

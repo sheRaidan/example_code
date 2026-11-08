@@ -25,16 +25,16 @@ for (const field of fields) {
 async function loadItems() {
   resumeStatus.textContent = 'Loading experiences…';
   try {
-    const response = await fetch('/api/resume-items');
+    const response = await fetch('/activities');
     if (!response.ok) throw new Error('Unable to load experiences. Please try again later.');
     const items = await response.json();
     const fragment = document.createDocumentFragment();
     for (const item of items) {
       const node = template.content.cloneNode(true);
-      node.querySelector('.job-title').textContent = item.job_title;
-      node.querySelector('.employer').textContent = item.employer;
-      node.querySelector('.dates').textContent = `${item.start_year} – ${item.end_year ?? 'Present'}`;
-      node.querySelector('.accomplishment').textContent = item.accomplishment;
+      node.querySelector('.job-title').textContent = item.activityName;
+      node.querySelector('.employer').textContent = item.activityType;
+      node.querySelector('.dates').textContent = item.energy;
+      node.querySelector('.accomplishment').textContent = item.desc;
       fragment.append(node);
     }
     resumeItems.replaceChildren(fragment);
@@ -60,7 +60,7 @@ form.addEventListener('submit', async (event) => {
   submitButton.disabled = true;
   formStatus.textContent = 'Saving experience…';
   try {
-    const response = await fetch('/api/resume-items', {
+    const response = await fetch('/activities', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
