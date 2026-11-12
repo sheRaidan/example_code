@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const resumeItemSchema = new mongoose.Schema({
   activityName: { type: String, required: true, trim: true, maxlength: 100 },
-  desc: { type: String, trim: true, maxlength: 1000 },
+  desc: { type: String, maxlength: 1000 },
   activityType: { type: String, required: true, trim: true, maxlength: 100 },
   energy: { type: Number, required: true, min: 1, max: 3, validate: Number.isInteger }
 }, { collection: 'resume_items', autoIndex: false });
